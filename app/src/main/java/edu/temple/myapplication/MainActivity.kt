@@ -52,20 +52,28 @@ class MainActivity : AppCompatActivity() {
                 BIND_AUTO_CREATE)
 
         startButton.setOnClickListener {
-            if (startButton.text == "Pause") {
+            if (isConnected && timerBinder.isRunning && !timerBinder.paused) {
                 timerBinder.pause()
-                startButton.text = "Start"
             }
             else if (isConnected || timerBinder.paused) {
                 timerBinder.start(100)
+            }
+
+            if (timerBinder.paused) {
+                startButton.text = "Start"
+            } else {
                 startButton.text = "Pause"
             }
+
 
 
         }
         
         findViewById<Button>(R.id.stopButton).setOnClickListener {
-            if (isConnected) timerBinder.stop()
+            if (isConnected) {
+                timerBinder.stop()
+                startButton.text = "Start"
+            }
         }
 
 
